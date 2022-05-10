@@ -4,15 +4,40 @@ some ARM, about linker scripts, etc. etc.
 
 **Microcontroller/board:** STM32F401-DISCO
 
-
 ## Status
-Currently, the code compiles, links, and flashes onto the MCU, but it does not
-blink an LED. All it does is increment a register in an infinite loop. 
+Currently, the code compiles, links, and flashes onto the MCU, but **it does not
+blink an LED.** All it does is increment a register in an infinite loop. 
+
+
+## Build
+I have not written a Makefile yet because there is a very minimal build process.
+You can source `compile.sh` to build. 
+
+```
+bash compile.sh
+```
+
+### Debugging
+I've been debugging with `gdb` and `openOCD`. The latter serves as host to the
+former. To do the same, you'll need two `openOCD` config files:
+
+- `stlink.cfg`
+- `stm32f4.cfg`
+
+```
+> openocd -f stlink.cfg -f stm32f4.cfg &
+> gdb
+(gdb) target extended-remote localhost:3333
+(gdb) file blinky.elf
+```
+
+And so on.
+
 
 ## Background
 This is a learning project, to become familiar with a modern microcontroller and
-its assembly. It's also my first experience with using `as` to write and
-assemble code, and it's the first time I'm writing a linker script for `ld`. 
+its assembly language. It's also my first experience with using `as` to write
+and assemble code, and it's the first time I'm writing a linker script for `ld`. 
 
 ### Toolset
 I tried to restrict myself to reference manuals and the like, and some
@@ -25,8 +50,6 @@ My actual toolchain is composed of:
 - [stlink](https://github.com/stlink-org/stlink) for writing the binary to flash
 - GNU's `gdb` debug tool, with `openocd`
 
-I have not written a Makefile yet because there is a very minimal build process.
-You can source `compile.sh` to build. 
 
 ### My background
 I started reading about computers and computer architecture in the early spring
